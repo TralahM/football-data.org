@@ -71,9 +71,10 @@ var responseHeaders map[string]interface{} = map[string]interface{}{
 	"X-Requests-Available-Minute": 28,             // Shows the remaining requests before being blocked.
 }
 
-func NewAPIClient(XAuthToken string) Client {
-	return Decorate(http.DefaultClient,
+func NewAPIClient(XAuthToken string) APIClient {
+	client := Decorate(http.DefaultClient,
 		Header("Accept", "application/json;charset=utf8"),
 		Header("X-Auth-Token", XAuthToken),
 	)
+	return APIClient{client: client}
 }

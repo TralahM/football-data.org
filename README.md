@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.com/TralahM/football-data.org.svg?branch=master)](https://travis-ci.com/TralahM/football-data.org)
-[![Build status](https://ci.appveyor.com/api/projects/status/yvvmq5hyf7hj743a/branch/master?svg=true)](https://ci.appveyor.com/project/TralahM/football-data.org/branch/master)
-[![Documentation Status](https://readthedocs.org/projects/football-data.org/badge/?version=latest)](https://football-data.org.readthedocs.io/en/latest/?badge=latest)
 [![License: GPLv3](https://img.shields.io/badge/License-GPLV2-green.svg)](https://opensource.org/licenses/GPLV2)
 [![Organization](https://img.shields.io/badge/Org-TralahTek-blue.svg)](https://github.com/TralahTek)
-[![Views](http://hits.dwyl.io/TralahM/football-data.org.svg)](http://dwyl.io/TralahM/football-data.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](https://github.com/TralahM/football-data.org/pull/)
 [![GitHub pull-requests](https://img.shields.io/badge/Issues-pr-red.svg?style=flat-square)](https://github.com/TralahM/football-data.org/pull/)
 [![Language](https://img.shields.io/badge/Language-go-00ADD8.svg)](https://github.com/TralahM)
@@ -29,19 +26,21 @@ import "github.com/tralahm/football-data.org"
 import "fmt"
 
 XAuthToken="your football-data api key"
+
 apiClient:=football_data.NewAPIClient(XAuthToken)
-leaguesResponse:=football_data.GetLeagues()
+
+leaguesResponse:=apiClient.GetLeagues()
 fmt.Println(leaguesResponse.Competitions[0])
 LeagueID="2018"
-competition:=football_data.GetLeague(LeagueID,apiClient)
-gamesResponse:=football_data.GetGames(LeagueID,apiClient)
+competition:=apiClient.GetLeague(LeagueID)
+gamesResponse:=apiClient.GetGames(LeagueID)
 fmt.Println(gamesResponse.Matches[0])
-teamsResponse:=football_data.GetTeams(LeagueID,apiClient)
+teamsResponse:=apiClient.GetTeams(LeagueID)
 fmt.Println(teamsResponse.Teams[0])
 GameID:="239019"
-gameR:=football_data.GetGameDetails(GameID,apiClient)
+gameR:=apiClient.GetGameDetails(GameID)
 fmt.Println(gameR.Head2Head,gameR.Match)
-standingsResponse:=football_data.GetLeague(LeagueID,apiClient)
+standingsResponse:=apiClient.GetLeague(LeagueID)
 fmt.Println(standingsResponse.Standings[0])
 
 ```

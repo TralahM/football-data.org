@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+type APIClient struct {
+	client    Client
+}
+
 func DoGet(addr string, apiClient Client) ([]byte, error) {
 	req, err := http.NewRequest(http.MethodGet, addr, nil)
 	if err != nil {
@@ -25,10 +29,10 @@ func DoGet(addr string, apiClient Client) ([]byte, error) {
 	return responseBytes, err
 
 }
-func GetLeagues(apiClient Client) CompetitionsResponse {
+func (c APIClient) GetLeagues() CompetitionsResponse {
 	endpoint := "/v2/competitions"
 	addr := baseUrl + endpoint
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error geting Leagues: %s", err)
 	}
@@ -42,10 +46,10 @@ func GetLeagues(apiClient Client) CompetitionsResponse {
 	return competitions
 }
 
-func GetLeague(leagueCode string, apiClient Client) Competition {
+func (c APIClient) GetLeague(leagueCode string) Competition {
 	endpoint := "/v2/competitions/" + leagueCode
 	addr := baseUrl + endpoint
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error geting League %s: %s", leagueCode, err)
 	}
@@ -59,10 +63,10 @@ func GetLeague(leagueCode string, apiClient Client) Competition {
 	return competition
 }
 
-func GetTeams(leagueCode string, apiClient Client) TeamsResponse {
+func (c APIClient) GetTeams(leagueCode string) TeamsResponse {
 	endpoint := "/v2/competitions/" + leagueCode + "/teams"
 	addr := baseUrl + endpoint
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error getting %s Teams: %s", leagueCode, err)
 	}
@@ -75,10 +79,10 @@ func GetTeams(leagueCode string, apiClient Client) TeamsResponse {
 	return teams
 }
 
-func GetGames(leagueCode string, apiClient Client) MatchesResponse {
+func (c APIClient) GetGames(leagueCode string) MatchesResponse {
 	endpoint := "/v2/competitions/" + leagueCode + "/matches"
 	addr := baseUrl + endpoint
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error getting %s Matches: %s", leagueCode, err)
 	}
@@ -90,10 +94,10 @@ func GetGames(leagueCode string, apiClient Client) MatchesResponse {
 	return matches
 }
 
-func GetGameDetails(gameId string, apiClient Client) GameResponse {
+func (c APIClient) GetGameDetails(gameId string) GameResponse {
 	endpoint := "/v2/matches/" + gameId
 	addr := baseUrl + endpoint
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error geting Game %s: %s", gameId, err)
 	}
@@ -105,11 +109,11 @@ func GetGameDetails(gameId string, apiClient Client) GameResponse {
 	return match
 }
 
-func GetLeagueStandings(leagueId string, apiClient Client) StandingsResponse {
+func (c APIClient) GetLeagueStandings(leagueId string) StandingsResponse {
 	endpoint := "/competitions/" + leagueId + "/standings"
 	addr := baseUrl + endpoint
 	var standings StandingsResponse
-	responseBytes, err := DoGet(addr, apiClient)
+	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
 		log.Fatalf("Error geting Game %s: %s", leagueId, err)
 	}
