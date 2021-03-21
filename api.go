@@ -8,7 +8,7 @@ import (
 )
 
 type APIClient struct {
-	client    Client
+	client Client
 }
 
 func DoGet(addr string, apiClient Client) ([]byte, error) {
@@ -110,12 +110,12 @@ func (c APIClient) GetGameDetails(gameId string) GameResponse {
 }
 
 func (c APIClient) GetLeagueStandings(leagueId string) StandingsResponse {
-	endpoint := "/competitions/" + leagueId + "/standings"
+	endpoint := "/v2/competitions/" + leagueId + "/standings"
 	addr := baseUrl + endpoint
 	var standings StandingsResponse
 	responseBytes, err := DoGet(addr, c.client)
 	if err != nil {
-		log.Fatalf("Error geting Game %s: %s", leagueId, err)
+		log.Fatalf("Error geting Standings %s: %s", leagueId, err)
 	}
 	if err := json.Unmarshal(responseBytes, &standings); err != nil {
 		log.Fatal(err)
