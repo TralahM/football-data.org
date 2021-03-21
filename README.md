@@ -21,27 +21,35 @@ $ go get -u github.com/tralahm/football-data.org
 
 ## Usage
 ```go
+package main
 
-import "github.com/tralahm/football-data.org"
-import "fmt"
+import (
+	"fmt"
 
-XAuthToken="your football-data api key"
+	football_data "github.com/tralahm/football-data.org"
+)
 
-apiClient:=football_data.NewAPIClient(XAuthToken)
+func main() {
 
-leaguesResponse:=apiClient.GetLeagues()
-fmt.Println(leaguesResponse.Competitions[0])
-LeagueID="2018"
-competition:=apiClient.GetLeague(LeagueID)
-gamesResponse:=apiClient.GetGames(LeagueID)
-fmt.Println(gamesResponse.Matches[0])
-teamsResponse:=apiClient.GetTeams(LeagueID)
-fmt.Println(teamsResponse.Teams[0])
-GameID:="239019"
-gameR:=apiClient.GetGameDetails(GameID)
-fmt.Println(gameR.Head2Head,gameR.Match)
-standingsResponse:=apiClient.GetLeague(LeagueID)
-fmt.Println(standingsResponse.Standings[0])
+	XAuthToken := "your football-data api key"
+
+	apiClient := football_data.NewAPIClient(XAuthToken)
+
+	leaguesResponse := apiClient.GetLeagues()
+	fmt.Println(leaguesResponse.Competitions[0])
+	LeagueID := "2018"
+	competition := apiClient.GetLeague(LeagueID)
+	fmt.Println(competition)
+	gamesResponse := apiClient.GetGames(LeagueID)
+	fmt.Println(gamesResponse.Matches[0])
+	teamsResponse := apiClient.GetTeams(LeagueID)
+	fmt.Println(teamsResponse.Teams[0])
+	GameID := "239019"
+	gameR := apiClient.GetGameDetails(GameID)
+	fmt.Println(gameR.Head2Head, gameR.Match)
+	standingsResponse := apiClient.GetLeague(LeagueID)
+	fmt.Println(standingsResponse.Standings[0])
+}
 
 ```
 
