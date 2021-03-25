@@ -26,6 +26,7 @@ func DoGet(addr string, apiClient Client) ([]byte, error) {
 	if res.Status == 429 {
 		sleep := res.Header.Get("X-RequestCounter-Reset").(int)
 		time.Sleep(time.Second * sleep)
+		return DoGet(addr, apiClient)
 	}
 	responseBytes, err := ioutil.ReadAll(res.Body)
 	if err != nil {
