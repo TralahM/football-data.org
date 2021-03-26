@@ -25,12 +25,13 @@ func DoGet(addr string, apiClient Client) ([]byte, error) {
 	defer res.Body.Close()
 	log.Println("statusCode: ", res.Status)
 	statuscode, _ := strconv.Atoi(res.Status)
+	log.Println(statuscode)
 	if statuscode == 429 {
 		sleep := res.Header.Get("X-RequestCounter-Reset")
 		isleep, _ := strconv.Atoi(sleep)
 		log.Fatalf("X-RequestCounter-Reset: %v", sleep)
-		time.Sleep(time.Second * time.Duration(isleep))
-		return DoGet(addr, apiClient)
+		time.Sleep(time.Second * time.Duration(isleep+5))
+		DoGet(addr, apiClient)
 	}
 	responseBytes, err := ioutil.ReadAll(res.Body)
 	if err != nil {
