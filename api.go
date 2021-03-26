@@ -25,6 +25,7 @@ func DoGet(addr string, apiClient Client) ([]byte, error) {
 	log.Println("statusCode: ", res.Status)
 	if res.Status == 429 {
 		sleep := res.Header.Get("X-RequestCounter-Reset").(int)
+		log.Fatalf("X-RequestCounter-Reset: %v", sleep)
 		time.Sleep(time.Second * sleep)
 		return DoGet(addr, apiClient)
 	}
