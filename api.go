@@ -31,7 +31,7 @@ func DoGet(addr string, apiClient Client) ([]byte, error) {
 		isleep, _ := strconv.Atoi(sleep)
 		log.Fatalf("X-RequestCounter-Reset: %v", sleep)
 		time.Sleep(time.Second * time.Duration(isleep+5))
-		DoGet(addr, apiClient)
+		return DoGet(addr, apiClient)
 	}
 	responseBytes, err := ioutil.ReadAll(res.Body)
 	if err != nil {
